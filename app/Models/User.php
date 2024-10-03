@@ -67,6 +67,11 @@ class User extends Authenticatable
         return $this->hasOne(Team::class);
     }
 
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id');
+    }
+
     public function getRandomColor()
     {
         $colors = ['primary', 'success', 'danger', 'warning', 'dark', 'info'];

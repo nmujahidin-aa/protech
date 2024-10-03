@@ -23,7 +23,6 @@
 
     <link rel="stylesheet" href="{{URL::to('/')}}/assets/plugins/global/fonts/recoleta.otf">
     <link rel="stylesheet" href="{{URL::to('/')}}/assets/plugins/global/fonts/Recoleta-Bold.ttf">
-
     <style>
         .button {
             width: 150px;

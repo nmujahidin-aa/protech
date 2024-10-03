@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\User\WorksheetRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Team;
+use App\Models\User;
 
 class WorksheetController extends Controller
 {
@@ -22,7 +25,19 @@ class WorksheetController extends Controller
 
     public function index(){
         $worksheet = $this->worksheet::first();
+
+        $user = Auth::id();
+        $team_id = DB::table('team_user')
+                    ->where('user_id', $user)
+                    ->value('team_id');
+        if ($team_id) {
+            $id = $team_id;
+        } else {
+            $id = null;
+        }
+
         return view($this->view.'index', [
+            'id' => $id,
             'worksheet' => $worksheet,
         ]);
     }
@@ -33,29 +48,26 @@ class WorksheetController extends Controller
         $team = null;
         $members = [];
 
-        if ($id) {
-            $worksheet = $this->worksheet::findOrFail($id);
+        // Ambil user yang sedang login
+        $loggedInUser = auth()->user();
+
+        // Gunakan relasi untuk mengambil tim yang terkait dengan user yang sedang login
+        $team = $loggedInUser->teams()->first(); // Ambil tim pertama yang terkait dengan user
+
+        // Jika user memiliki tim, ambil semua anggotanya
+        if ($team) {
+            // Ambil anggota tim dengan relasi
+            $members = $team->members()->get(); // Ambil semua member dari tim tersebut
         }
 
-        $loggedInUserId = auth()->id();
-        // Pengecekan apakah ada user_id yang cocok dengan auth->id;
-        $team = DB::table('team_user')
-                    ->join('teams', 'team_user.team_id', '=', 'teams.id')
-                    ->where('team_user.user_id', $loggedInUserId)
-                    ->select('teams.id','teams.name')
-                    ->first();
-
-        // Pengecekan jika terdapat $team maka foreach semua user_id sebagai member tim;
-        if ($team) {
-        $members = DB::table('team_user')
-                    ->where('team_id', $team->id)
-                    ->pluck('user_id');
-                }
+        $existingWorksheet = $this->worksheet::where('team_id', $id)->first();
 
         return view($this->view . 'edit', [
             'worksheet' => $worksheet,
             'team' => $team,
             'members' => $members,
+            'id' => $id,
+            'existingWorksheet' => $existingWorksheet,
         ]);
     }
 
@@ -63,14 +75,20 @@ class WorksheetController extends Controller
     {
         $filePath = null;
         if ($request->hasFile('file')) {
+            $id = $request->team_id;
             $file = $request->file('file');
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $fileName = 'kelompok_'.$id.'_'.time() . '.' . $file->getClientOriginalExtension();
             $filePath = $file->storeAs('lkpd', $fileName, 'public');
         }
 
         $data = $request->validated();
-        if ($request->has('id')) {
-            $worksheet = $this->worksheet::findOrFail($request->id);
+
+        $existingWorksheet = $this->worksheet::where('team_id', $request->team_id)->first();
+
+        if ($existingWorksheet) {
+            // If a record with the same team_id exists, update the worksheet
+            $worksheet = $this->worksheet::findOrFail($existingWorksheet->id);
+
             if ($filePath === null) {
                 $filePath = $worksheet->file;
             } else {
@@ -78,14 +96,14 @@ class WorksheetController extends Controller
                     Storage::delete('public/' . $worksheet->file);
                 }
             }
-        }
-        $data['file'] = $filePath;
 
-        if ($request->has('id')) {
-            $worksheet = $this->worksheet::findOrFail($request->id);
+            $data['file'] = $filePath;
             $worksheet->update($data);
             alert()->html('Berhasil', 'Data berhasil diperbarui', 'success');
         } else {
+            // If no record with the same team_id exists, create a new worksheet
+            $data['file'] = $filePath;
+            $data['team_id'] = $request->team_id;
             $this->worksheet::create($data);
             alert()->html('Berhasil', 'Data berhasil ditambahkan', 'success');
         }

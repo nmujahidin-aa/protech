@@ -16,6 +16,7 @@
 <!--begin::Custom Javascript(used for this page only)-->
 <script src="{{URL::to('/')}}/assets/js/custom/authentication/sign-in/general.js"></script>
 <script src="{{URL::to('/')}}/assets/js/custom/authentication/sign-up/general.js"></script>
+
 <!--end::Javascript-->
 @yield('scripts')
 <!--end::Custom Javascript-->

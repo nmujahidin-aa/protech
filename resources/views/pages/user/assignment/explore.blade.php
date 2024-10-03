@@ -10,36 +10,23 @@
                 </div>
 
                 <div class="row gy-5 py-8">
+                    @foreach ($assignment as $index => $row)
                     <a href="" class="col-md-6 col-sm-12">
                         <div class="card background" style="background-color: #9945d6;">
                             <div class="card-body text-center">
                                 <p class="recoleta text-warning">Kelompok 1</p>
                                 <div class="row">
                                     <div class="col-4">
-                                        <img src="" alt="">
+                                        <img src="{{ asset('storage/' . $row->image) }}" alt="poster" style="width: 10vw;" class="rounded">
                                     </div>
                                     <div class="col-8">
-                                        <p class="text-light text-start">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus possimus dolor fuga provident eius natus quae sunt modi, harum deserunt. Autem, ab? Eaque quo provident est dolorum, quae illum. Quas?</p>
+                                        <p class="text-light text-start">{{$row->description}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    <a href="" class="col-md-6 col-sm-12">
-                        <div class="card background" style="background-color: #9945d6;">
-                            <div class="card-body text-center">
-                                <p class="recoleta text-warning">Kelompok 1</p>
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="" alt="">
-                                    </div>
-                                    <div class="col-8">
-                                        <p class="text-light">Deskripsi singkat nya pokok ini</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                    @endforeach
                 </div>
 
                 <div class="d-flex justify-content-center" style="position: absolute; bottom: -25px; right: 10px;">

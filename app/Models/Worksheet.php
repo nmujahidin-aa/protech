@@ -12,6 +12,7 @@ class Worksheet extends Model
     protected $table = 'worksheets';
     protected $fillable = [
         'file',
+        'team_id',
     ];
 
     public function user()

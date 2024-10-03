@@ -18,51 +18,63 @@
                 </div>
 
                 <div class="row gy-5 py-8">
-                    {{-- <a href="" class="col-md-6 col-sm-12">
-                        <div class="card background" style="background-color: #9945d6;">
-                            <div class="card-body text-center">
-                                <i class="ki-duotone ki-cloud-download text-light" style="font-size: 100px;">
-                                    <i class="path1"></i>
-                                    <i class="path2"></i>
-                                    <i class="path3"></i>
-                                </i>
-                                <h5 class="text-center pt-5 text-light recoleta fs-1">Unggah Hasil Karya</h5>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="{{route("assignment.explore")}}" class="col-md-6 col-sm-12">
-                        <div class="card background" style="background-color: #9945d6;">
-                            <div class="card-body text-center">
-                                <i class="ki-duotone ki-parcel-tracking text-light" style="font-size: 100px;">
-                                    <i class="path1"></i>
-                                    <i class="path2"></i>
-                                    <i class="path3"></i>
-                                </i>
-                                <h5 class="text-center pt-5 text-light recoleta fs-1">Eksplor Hasil Karya</h5>
-                            </div>
-                        </div>
-                    </a> --}}
                     @if ($team)
-                        Team: {{$team->name}}
-                        <br>
-                        Anggota:
-                        <ul>
-                            @foreach ($members as $member)
-                                <li>User ID: {{$member}}</li>
+                        <div class="d-flex align-items-center">
+                            <h5 class="text-light recoleta me-2 mb-0">Anggota Kelompok:</h5>
+                            @foreach ($team->members as $member)
+                                <div class="symbol symbol-35px symbol-circle d-inline-block me-2" data-bs-toggle="tooltip" title="{{ $member->name }}">
+                                    <span class="symbol-label bg-{{ $member->getRandomColor() }} text-inverse-{{ $member->getRandomColor() }} fw-bold">
+                                        {{ substr($member->name, 0, 1) }}
+                                    </span>
+                                </div>
                             @endforeach
-                        </ul>
+                        </div>
+                        <form action="{{ route('worksheet.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="team_id" value="{{$id}}">
+                            <div class="form-group row mb-3">
+                                <label class="col-md-2 col-form-label text-light recoleta">
+                                    @if ($existingWorksheet)
+                                        Ubah E-LKPD
+                                    @else
+                                        Tambah E-LKPD
+                                    @endif
+                                    <span class="text-danger">*</span></label>
+                                <div class="col-md-10">
+                                    <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="file" value="{{ old('file') ? old('file') : (isset($material) ? $material->file : '') }}">
+                                    <div class="invalid-feedback">
+                                        @error('file')
+                                        {{ $message }}
+                                        @enderror
+                                    </div>
+                                    <div>
+                                        @if ($existingWorksheet)
+                                            <a href="{{ asset('storage/' . $existingWorksheet->file) }}" target="_blank" class="text-light recoleta">Lihat E-LKPD kelompok</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-5">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+
                     @else
-                        Belum ada kelompok
+                        <p class="text-center text-light recoleta">-- Belum ada kelompok --</p>
                     @endif
                 </div>
 
                 <div class="d-flex justify-content-center" style="position: absolute; bottom: -25px; right: 10px;">
-                    <a href="{{route('home.index')}}" class="circlebutton">
-                        <i class="ki-solid ki-home fs-1 text-light"></i>
+                    <a href="{{route('worksheet.index')}}" class="circlebutton">
+                        <i class="ki-solid ki-left fs-1 text-light"></i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+</script>
 @endsection

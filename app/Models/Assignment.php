@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Assignment extends Model
 {
     use HasFactory;
+
+    protected $table = 'assignments';
+    protected $fillable = [
+        'image',
+        'description',
+        'team_id',
+    ];
 }

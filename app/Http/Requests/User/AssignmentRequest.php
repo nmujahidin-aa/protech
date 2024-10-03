@@ -22,7 +22,7 @@ class AssignmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'team' => ['required', 'string', 'max:255'],
+            'team_id' => ['required'],
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:5126'],
             'description' => ['required', 'string'],
         ];
@@ -37,7 +37,6 @@ class AssignmentRequest extends FormRequest
     {
         return [
             'team.required' => 'Nama Kelompok harus diisi',
-            'team.string' => 'Kelompok harus berupa string',
             'image.required' => 'Poster harus diisi',
             'image.image' => 'Poster harus berupa gambar',
             'image.mimes' => 'Poster harus berformat jpeg, png, jpg, gif, svg',

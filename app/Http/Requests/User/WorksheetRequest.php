@@ -23,12 +23,14 @@ class WorksheetRequest extends FormRequest
     {
         return [
             'file' => ['required', 'mimes:pdf', 'max:5120'],
+            'team_id' => ['required'],
         ];
     }
 
     public function messages(): array
     {
         return [
+            'team_id.required' => 'Id Tim harus diisi',
             'file.required' => 'File harus diisi',
             'file.mimes' => 'File harus berupa pdf',
             'file.max' => 'File tidak boleh lebih dari 5MB',

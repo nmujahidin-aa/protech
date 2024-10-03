@@ -22,8 +22,8 @@
                 </div>
 
                 <div class="row gy-2 gx-2 mb-5">
-                    <a href="{{route('worksheet.edit')}}" class="bg-purple py-5 rounded">
-                        <h1 class="text-light text-center fs-1 recoleta">Unggah E-LKPD</h1>
+                    <a href="{{route('worksheet.edit', $id)}}" class="bg-purple py-5 rounded">
+                        <h1 class="text-light text-center fs-1 recoleta">Pengumpulan E-LKPD</h1>
                     </a>
                 </div>
                 <input type="file" id="fileInput" style="display: none;">
