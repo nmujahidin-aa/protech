@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Assignment;
+use App\Models\Comment;
+use App\Models\Like;
 use App\Http\Requests\User\AssignmentRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -17,10 +19,14 @@ class AssignmentController extends Controller
     private $view;
     private $route;
     private $assignment;
+    private $comment;
+    private $like;
     public function __construct(){
         $this->view = "pages.user.assignment.";
         $this->route = "assignment.";
         $this->assignment = new Assignment();
+        $this->comment = new Comment();
+        $this->like = new Like();
     }
 
     public function index(){
@@ -44,8 +50,47 @@ class AssignmentController extends Controller
 
     public function explore(){
         $assignment = $this->assignment::all();
+        $comment = $this->comment::all();
         return view($this->view."explore",[
             'assignment' => $assignment,
+            'comment' => $comment,
+        ]);
+    }
+
+    public function comment(Request $request){
+        $request->validate([
+            'assignment_id' => 'required|exists:assignments,id',
+            'content' => 'required|string|max:255',
+        ]);
+
+        // Create a new comment
+        Comment::create([
+            'assignment_id' => $request->assignment_id,
+            'user_id' => auth()->id(),
+            'content' => $request->content,
+        ]);
+
+        // Redirect back or return a response
+        return back()->with('success', 'Comment added successfully.');
+    }
+
+    public function like(Request $request, $id)
+    {
+        $assignment = $this->assignment::findOrFail($id);
+        $user = auth()->user();
+
+        $like = $assignment->likes()->where('user_id', $user->id)->first();
+
+        if ($like) {
+            $like->delete();
+            $liked = false;
+        } else {
+            $assignment->likes()->create(['user_id' => $user->id]);
+            $liked = true;
+        }
+
+        return response()->json([
+            'liked' => $liked
         ]);
     }
 

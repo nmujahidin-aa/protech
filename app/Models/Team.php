@@ -25,4 +25,13 @@ class Team extends Model
         return $this->belongsToMany(User::class, 'team_user', 'team_id', 'user_id');
     }
 
+    public function worksheets()
+    {
+        return $this->hasMany(Worksheet::class);
+    }
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
 }

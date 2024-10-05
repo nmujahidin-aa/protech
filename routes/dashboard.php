@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\WorksheetController;
 use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\AssignmentController;
 
 
 /*
@@ -41,5 +42,7 @@ Route::post('/upload', [IntroductionController::class, 'upload'])->name('introdu
 RouteHelper::make('video', 'video', VideoController::class);
 RouteHelper::make('worksheet', 'worksheet', WorksheetController::class);
 RouteHelper::make('team', 'team', TeamController::class);
+
+RouteHelper::make('assignment', 'assignment', AssignmentController::class);
 
 

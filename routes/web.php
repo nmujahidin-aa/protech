@@ -50,8 +50,10 @@ Route::group(["namespace" => "App\Http\Controllers\User", "middleware"=>"auth"],
     Route::group(["prefix"=>"assignment", "as"=>"assignment."], function(){
         Route::get("/", "AssignmentController@index")->name('index');
         Route::post("/", "AssignmentController@store")->name( 'store');
+        Route::post("/comment", "AssignmentController@comment")->name( 'comment');
         Route::get("/edit/{id?}", "AssignmentController@edit")->name("edit");
         Route::get("/explore", "AssignmentController@explore")->name("explore");
+        Route::post("/{id}/like", "AssignmentController@like")->name( 'like');
     });
 });
 

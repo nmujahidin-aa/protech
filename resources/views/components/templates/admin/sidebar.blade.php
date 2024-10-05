@@ -118,8 +118,8 @@
                     </a>
                 </div>
                 <!--end:Menu item-->
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                    <a href="" class="menu-link">
+                <div data-kt-menu-trigger="click" class="menu-item  @if(request()->routeIs('dashboard.assignment.*')) here show @endif menu-accordion">
+                    <a href="{{route('dashboard.assignment.index')}}" class="menu-link">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-chart-line-star fs-2">
                                 <i class="path1"></i>
@@ -127,7 +127,7 @@
                                 <i class="path3"></i>
                             </i>
                         </span>
-                        <span class="menu-title">Progress Kelompok</span>
+                        <span class="menu-title">Penugasan Kelompok</span>
                         <span class="menu-arrow"></span>
                     </a>
                 </div>
