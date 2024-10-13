@@ -31,6 +31,9 @@ Route::group(["namespace" => "App\Http\Controllers\User", "middleware"=>"auth"],
 
     Route::group(["prefix"=>"evaluation", "as"=>"evaluation."], function(){
         Route::get("/", "EvaluationController@index")->name('index');
+        Route::get("/pretest", "EvaluationController@pretest")->name('pretest');
+        Route::get("/posttest", "EvaluationController@posttest")->name('posttest');
+        Route::get("/game", "EvaluationController@game")->name('game');
     });
 
     Route::group(["prefix"=>"material", "as"=>"material."], function(){

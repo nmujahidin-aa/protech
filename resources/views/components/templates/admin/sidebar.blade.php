@@ -38,7 +38,7 @@
                 </div>
                 <!--end:Menu item-->
                 <div class="my-3 px-5">
-                    <span class="menu-title text-warning">Main Menu</span>
+                    <span class="menu-title text-warning">Preparasi</span>
                 </div>
                 <div data-kt-menu-trigger="click" class="menu-item  @if(request()->routeIs('dashboard.introduction.*')) here show @endif menu-accordion">
                     <a href="{{route('dashboard.introduction.index')}}" class="menu-link">
@@ -81,6 +81,20 @@
                             </i>
                         </span>
                         <span class="menu-title">Video</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item  @if(request()->routeIs('dashboard.evaluation.*')) here show @endif menu-accordion">
+                    <a href="{{route('dashboard.evaluation.index')}}" class="menu-link">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-youtube fs-2">
+                                <i class="path1"></i>
+                                <i class="path2"></i>
+                                <i class="path3"></i>
+                            </i>
+                        </span>
+                        <span class="menu-title">Soal Evaluasi</span>
                         <span class="menu-arrow"></span>
                     </a>
                 </div>

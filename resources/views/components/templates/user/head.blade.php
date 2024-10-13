@@ -65,6 +65,10 @@
             font-size: 32px; /* Ukuran ikon, bisa disesuaikan */
         }
 
+        .background-test {
+            background-color: #9945d6; /* Warna background, bisa disesuaikan */
+        }
+
         .background {
             background-color: #9945d6; /* Warna background, bisa disesuaikan */
             opacity: 0.8; /* Opacity background, bisa disesuaikan */

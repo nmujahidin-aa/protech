@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\WorksheetController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\AssignmentController;
+use App\Http\Controllers\Admin\EvaluationController;
 
 
 /*
@@ -44,5 +45,6 @@ RouteHelper::make('worksheet', 'worksheet', WorksheetController::class);
 RouteHelper::make('team', 'team', TeamController::class);
 
 RouteHelper::make('assignment', 'assignment', AssignmentController::class);
+RouteHelper::make('evaluation', 'evaluation', EvaluationController::class);
 
 
